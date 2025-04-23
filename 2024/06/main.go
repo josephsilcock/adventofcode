@@ -9,7 +9,7 @@ func main() {
 	initialMaze := createMaze()
 
 	mazeToRun := initialMaze.CreateCopy()
-	runMazeAndReturnInLoop(mazeToRun)
+	runMazeAndReturnInLoop(mazeToRun, FacingUp)
 
 	fmt.Println("Star 1:", mazeToRun.visitedPositions)
 	fmt.Println("Star 2:", findNumberOfMazesWithLoops(initialMaze, mazeToRun))
@@ -26,8 +26,8 @@ func createMaze() (maze *Maze) {
 	return
 }
 
-func runMazeAndReturnInLoop(maze *Maze) bool {
-	maze.StartMaze()
+func runMazeAndReturnInLoop(maze *Maze, direction FacingDirection) bool {
+	maze.StartMaze(direction)
 	for {
 		if maze.WillLeaveBounds() {
 			return false
@@ -43,9 +43,12 @@ func findNumberOfMazesWithLoops(maze *Maze, runMaze *Maze) (total int) {
 	for columnIndex, column := range runMaze.positions {
 		for rowIndex, position := range column {
 			if len(position.visitedDirections) != 0 {
+				firstVisitedDirection := position.visitedDirections[0]
+				obstaclePoint := Point{rowIndex, columnIndex}
 				newMaze := maze.CreateCopy()
 				newMaze.GetPositionAtPoint(Point{rowIndex, columnIndex}).obstacle = true
-				if runMazeAndReturnInLoop(newMaze) {
+				newMaze.startingLocation = obstaclePoint.Add(Point(firstVisitedDirection).Scale(-1))
+				if runMazeAndReturnInLoop(newMaze, firstVisitedDirection) {
 					total++
 				}
 			}

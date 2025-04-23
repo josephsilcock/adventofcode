@@ -84,8 +84,8 @@ func (m *Maze) Move() {
 	}
 }
 
-func (m *Maze) StartMaze() {
-	m.direction = FacingUp
+func (m *Maze) StartMaze(direction FacingDirection) {
+	m.direction = direction
 	m.visitPosition(m.startingLocation)
 }
 
