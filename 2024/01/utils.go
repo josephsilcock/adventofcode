@@ -1,25 +1,15 @@
 package main
 
 import (
-	"log"
-	"strconv"
+	"github.com/josephsilcock/adventofcode/2024/utils"
 	"strings"
 )
 
 func getLineValues(line string) (ret [2]int) {
 	parts := strings.Fields(line)
 
-	firstValue, err := strconv.Atoi(parts[0])
-	if err != nil {
-		log.Fatal(err)
-	}
-	ret[0] = firstValue
-
-	secondValue, err := strconv.Atoi(parts[1])
-	if err != nil {
-		log.Fatal(err)
-	}
-	ret[1] = secondValue
+	ret[0] = utils.ConvertStringToInt(parts[0])
+	ret[1] = utils.ConvertStringToInt(parts[1])
 
 	return
 }

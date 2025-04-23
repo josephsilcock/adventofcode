@@ -1,31 +1,20 @@
 package main
 
 import (
-	"bufio"
-	"log"
+	"github.com/josephsilcock/adventofcode/2024/utils"
 	"math"
-	"os"
 	"sort"
 )
 
 func getListDistance() int {
-	file, err := os.Open("input.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+	rows := utils.ReadFile("input.txt")
 
 	var list1, list2 []int
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		numbers := getLineValues(scanner.Text())
+	for _, row := range rows {
+		numbers := getLineValues(row)
 		list1 = append(list1, numbers[0])
 		list2 = append(list2, numbers[1])
-	}
-
-	if err = scanner.Err(); err != nil {
-		log.Fatal(err)
 	}
 
 	sort.Ints(list1)

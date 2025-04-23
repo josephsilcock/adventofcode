@@ -1,27 +1,20 @@
 package main
 
 import (
-	"bufio"
-	"log"
-	"os"
+	"github.com/josephsilcock/adventofcode/2024/utils"
 	"regexp"
 	"strconv"
 )
 
 func getAdvancedTotal() (total int) {
-	file, err := os.Open("input.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+	rows := utils.ReadFile("input.txt")
 
 	regex := regexp.MustCompile(`mul\((\d+),(\d+)\)|do\(\)|don't\(\)`)
 
 	enabled := true
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		matches := regex.FindAllStringSubmatch(scanner.Text(), -1)
+	for _, row := range rows {
+		matches := regex.FindAllStringSubmatch(row, -1)
 		for _, match := range matches {
 			switch match[0] {
 			case "do()":
@@ -36,10 +29,6 @@ func getAdvancedTotal() (total int) {
 				}
 			}
 		}
-	}
-
-	if err = scanner.Err(); err != nil {
-		log.Fatal(err)
 	}
 
 	return

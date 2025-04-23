@@ -1,9 +1,7 @@
 package main
 
 import (
-	"bufio"
-	"log"
-	"os"
+	"github.com/josephsilcock/adventofcode/2024/utils"
 	"strings"
 )
 
@@ -35,16 +33,10 @@ func isUpdateOrdered(update []string, rules map[string][]string) (bool, int, int
 }
 
 func categoriseUpdates(rules map[string][]string) (ordered, unordered [][]string) {
-	file, err := os.Open("input_updates.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+	rows := utils.ReadFile("input_updates.txt")
 
-	scanner := bufio.NewScanner(file)
-
-	for scanner.Scan() {
-		update := strings.Split(scanner.Text(), ",")
+	for _, row := range rows {
+		update := strings.Split(row, ",")
 
 		if isOrdered, _, _ := isUpdateOrdered(update, rules); isOrdered {
 			ordered = append(ordered, update)

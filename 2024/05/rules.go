@@ -1,30 +1,19 @@
 package main
 
 import (
-	"bufio"
-	"log"
-	"os"
+	"github.com/josephsilcock/adventofcode/2024/utils"
 	"strings"
 )
 
 func getRules() map[string][]string {
 	rules := make(map[string][]string)
 
-	file, err := os.Open("input_rules.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+	rows := utils.ReadFile("input_rules.txt")
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		numbers := strings.Split(scanner.Text(), "|")
+	for _, row := range rows {
+		numbers := strings.Split(row, "|")
 
 		rules[numbers[0]] = append(rules[numbers[0]], numbers[1])
-	}
-
-	if err = scanner.Err(); err != nil {
-		log.Fatal(err)
 	}
 
 	return rules

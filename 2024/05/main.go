@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"strconv"
+	"github.com/josephsilcock/adventofcode/2024/utils"
 )
 
 func main() {
@@ -17,10 +16,7 @@ func main() {
 func sumMiddleValues(updates [][]string) (total int) {
 	for _, update := range updates {
 		middlePageIndex := (len(update) - 1) / 2
-		middleValue, err := strconv.Atoi(update[middlePageIndex])
-		if err != nil {
-			log.Fatal(err)
-		}
+		middleValue := utils.ConvertStringToInt(update[middlePageIndex])
 
 		total += middleValue
 	}

@@ -1,10 +1,8 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"log"
-	"os"
+	"github.com/josephsilcock/adventofcode/2024/utils"
 )
 
 func main() {
@@ -19,19 +17,10 @@ func main() {
 
 func createMaze() (maze *Maze) {
 	maze = &Maze{}
-	file, err := os.Open("input.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+	rows := utils.ReadFile("input.txt")
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		maze.AddRow(scanner.Text())
-	}
-
-	if err = scanner.Err(); err != nil {
-		log.Fatal(err)
+	for _, row := range rows {
+		maze.AddRow(row)
 	}
 
 	return

@@ -1,41 +1,25 @@
 package main
 
 import (
-	"bufio"
-	"log"
-	"os"
-	"strconv"
+	"github.com/josephsilcock/adventofcode/2024/utils"
 	"strings"
 )
 
 func checkLevels(allowOneBadLevel bool) int {
-	file, err := os.Open("input.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+	rows := utils.ReadFile("input.txt")
 
 	var safeReports int
 
-	scanner := bufio.NewScanner(file)
-
-	for scanner.Scan() {
+	for _, row := range rows {
 		level := Level{canSkipValue: allowOneBadLevel}
-		for _, valueText := range strings.Fields(scanner.Text()) {
-			value, err := strconv.Atoi(valueText)
-			if err != nil {
-				log.Fatal(err)
-			}
+		for _, valueText := range strings.Fields(row) {
+			value := utils.ConvertStringToInt(valueText)
 			level.AddValue(value)
 		}
 
 		if level.IsSafe() {
 			safeReports++
 		}
-	}
-
-	if err = scanner.Err(); err != nil {
-		log.Fatal(err)
 	}
 
 	return safeReports

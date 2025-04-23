@@ -1,30 +1,19 @@
 package main
 
 import (
-	"bufio"
-	"log"
-	"os"
+	"github.com/josephsilcock/adventofcode/2024/utils"
 )
 
 func getListSimilarity() int {
-	file, err := os.Open("input.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+	rows := utils.ReadFile("input.txt")
 
 	list1 := make(map[int]int)
 	list2 := make(map[int]int)
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		numbers := getLineValues(scanner.Text())
+	for _, row := range rows {
+		numbers := getLineValues(row)
 		list1[numbers[0]]++
 		list2[numbers[1]]++
-	}
-
-	if err = scanner.Err(); err != nil {
-		log.Fatal(err)
 	}
 
 	var similarityScore int
