@@ -7,18 +7,7 @@ import (
 
 func TestFindNumberOfMazesWithLoops(t *testing.T) {
 	rows := utils.ReadFile("input.txt")
-	var totalCalibration int
-	var totalCalibrationIncludingCombination int
-
-	for _, row := range rows {
-		target, values := parseInputLine(row)
-		if isCalculationPossible(target, values) {
-			totalCalibration += target
-		}
-		if isCalculationPossibleIncludingCombination(target, values) {
-			totalCalibrationIncludingCombination += target
-		}
-	}
+	totalCalibration, totalCalibrationIncludingCombination := processRows(rows)
 
 	if totalCalibration != 5512534574980 {
 		t.Errorf("Star1: Got %v want 5512534574980", totalCalibration)
@@ -29,24 +18,10 @@ func TestFindNumberOfMazesWithLoops(t *testing.T) {
 	}
 }
 
-func BenchmarkIsCalculationPossible(b *testing.B) {
+func BenchmarkProcessRows(b *testing.B) {
 	rows := utils.ReadFile("input.txt")
 
 	for b.Loop() {
-		for _, row := range rows {
-			target, values := parseInputLine(row)
-			isCalculationPossible(target, values)
-		}
-	}
-}
-
-func BenchmarkIsCalculationPossibleIncludingCombination(b *testing.B) {
-	rows := utils.ReadFile("input.txt")
-
-	for b.Loop() {
-		for _, row := range rows {
-			target, values := parseInputLine(row)
-			isCalculationPossibleIncludingCombination(target, values)
-		}
+		processRows(rows)
 	}
 }
